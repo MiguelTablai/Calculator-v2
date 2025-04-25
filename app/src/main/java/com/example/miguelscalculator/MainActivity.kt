@@ -10,7 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-
+import android.graphics.Color
 class MainActivity : AppCompatActivity() {
 
     //For storing the selected math operation
@@ -43,11 +43,36 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
 
-        //Stores button that was clicked
-        btnAdd.setOnClickListener { selectedOperation = "+"}
-        btnSubtract.setOnClickListener { selectedOperation = "-"}
-        btnMultiply.setOnClickListener { selectedOperation = "*"}
-        btnDivide.setOnClickListener { selectedOperation = "/"}
+    //Highlights the selected button and resets the others to default
+    fun highlightedSelected(button: Button) {
+        val defaultColor = Color.LTGRAY
+        val highlightedColor = Color.BLUE
+
+        btnAdd.setBackgroundColor(defaultColor)
+        btnSubtract.setBackgroundColor(defaultColor)
+        btnMultiply.setBackgroundColor(defaultColor)
+        btnDivide.setBackgroundColor(defaultColor)
+
+        button.setBackgroundColor(highlightedColor)
+    }
+
+        //Stores operations AND now highlights the selected button
+        btnAdd.setOnClickListener {
+            selectedOperation = "+"
+            highlightedSelected(btnAdd)
+        }
+        btnSubtract.setOnClickListener {
+            selectedOperation = "-"
+            highlightedSelected(btnSubtract)
+        }
+        btnMultiply.setOnClickListener {
+            selectedOperation = "*"
+            highlightedSelected(btnMultiply)
+        }
+        btnDivide.setOnClickListener {
+            selectedOperation = "/"
+            highlightedSelected(btnDivide)
+        }
 
         //Equal button and math function
         btnEqual.setOnClickListener {
@@ -71,12 +96,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        //Reset button
+        //Reset button AND operation button highlights
         btnReset.setOnClickListener {
             input1.text.clear()
             input2.text.clear()
             resultText.text = "Answer will appear here"
             selectedOperation = null
+
+            val defaultColor = Color.LTGRAY
+            btnAdd.setBackgroundColor(defaultColor)
+            btnSubtract.setBackgroundColor(defaultColor)
+            btnMultiply.setBackgroundColor(defaultColor)
+            btnDivide.setBackgroundColor(defaultColor)
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
